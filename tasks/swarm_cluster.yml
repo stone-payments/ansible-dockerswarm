@@ -97,6 +97,7 @@
   changed_when: False
   delegate_to: "{{ groups['docker_swarm_manager'][0] }}"
   delegate_facts: True
+  when: skip_swarm_labeling
   tags:
     - skip_ansible_lint
     - swarm_labels
@@ -104,10 +105,12 @@
 - name: Remove labels from swarm node
   command: docker node update --label-rm {{ item }} {{ ansible_hostname }}
   with_items: "{{ docker_swarm_labels.stdout_lines }}"
-  when: "{{ docker_swarm_labels.stdout_lines | count > 0 }}"
+  when: 
+    - "{{ docker_swarm_labels.stdout_lines | count > 0 }}"
+    - skip_swarm_labeling
   changed_when: False
   delegate_to: "{{ groups['docker_swarm_manager'][0] }}"
-  delegate_facts: True
+  delegate_facts: True  
   tags:
     - skip_ansible_lint
     - swarm_labels
@@ -119,6 +122,7 @@
     - "{{ swarm_labels  | default([]) }}"
   delegate_to: "{{ groups['docker_swarm_manager'][0] }}"
   delegate_facts: True
+  when: skip_swarm_labeling
   tags:
     - skip_ansible_lint
     - swarm_labels
