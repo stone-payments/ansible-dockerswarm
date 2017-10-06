@@ -97,7 +97,7 @@
   changed_when: False
   delegate_to: "{{ groups['docker_swarm_manager'][0] }}"
   delegate_facts: True
-  when: skip_swarm_labeling
+  when: not skip_swarm_labeling
   tags:
     - skip_ansible_lint
     - swarm_labels
@@ -106,7 +106,7 @@
   command: docker node update --label-rm {{ item }} {{ ansible_hostname }}
   with_items: "{{ docker_swarm_labels.stdout_lines }}"
   when: 
-    - "({{ docker_swarm_labels.stdout_lines | count > 0 }}) and skip_swarm_labeling"
+    - "({{ docker_swarm_labels.stdout_lines | count > 0 }}) and (not skip_swarm_labeling)"
   changed_when: False
   delegate_to: "{{ groups['docker_swarm_manager'][0] }}"
   delegate_facts: True  
@@ -121,7 +121,7 @@
     - "{{ swarm_labels  | default([]) }}"
   delegate_to: "{{ groups['docker_swarm_manager'][0] }}"
   delegate_facts: True
-  when: skip_swarm_labeling
+  when: not skip_swarm_labeling
   tags:
     - skip_ansible_lint
     - swarm_labels
