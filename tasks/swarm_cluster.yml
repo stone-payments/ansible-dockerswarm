@@ -43,6 +43,7 @@
 
 - set_fact:
     docker_worker_token: "{{ docker_worker_token_raw.stdout }}"
+  when: "'docker_swarm_worker' in group_names"
   tags:
     - worker_token_discovering
 
