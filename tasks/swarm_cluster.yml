@@ -106,8 +106,7 @@
   command: docker node update --label-rm {{ item }} {{ ansible_hostname }}
   with_items: "{{ docker_swarm_labels.stdout_lines }}"
   when: 
-    - "{{ docker_swarm_labels.stdout_lines | count > 0 }}"
-    - skip_swarm_labeling
+    - "({{ docker_swarm_labels.stdout_lines | count > 0 }}) or skip_swarm_labeling"
   changed_when: False
   delegate_to: "{{ groups['docker_swarm_manager'][0] }}"
   delegate_facts: True  
