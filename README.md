@@ -8,8 +8,12 @@ using the new Docker Engine's "Swarm Mode" (https://docs.docker.com/engine/swarm
 
 Requirements
 ------------
+Please install with Pip
 
-None.
+```
+docker-py
+netaddr
+```
 
 Role Variables
 --------------
